@@ -1,5 +1,9 @@
 # O que é Node.js?
 
+## AVISO
+
+Este repositório não se destina ao iniciante em seu primeiro contato com Node, mas a quem já deu os primeiros passos e procura alguns exercícios e alguns bons exemplos de aplicativos (CRUDs e MVC).
+
 Node.js é uma plataforma do lado do servidor construída no mecanismo JavaScript do Google Chrome (motor V8).
 
 Node.js foi desenvolvido por Ryan Dahl em 2023 e sua última versão é a 18LTS. O definição de Node.js conforme fornecida por sua documentação oficial
