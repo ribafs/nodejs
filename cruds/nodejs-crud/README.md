@@ -8,4 +8,4 @@
 - Segure o Ctrl e clique no link ao final para abrir o aplicativo
 
 
-![]('img/crud2.png')
+![]('/img/crud2.png')
