@@ -14,6 +14,8 @@ Node.js = Runtime Environment + JavaScript Library
 
 ## Informações e simples e bons exemplos
 
+Veja nas pastas:
+
 - api
 - cruds
 - dicas
@@ -24,4 +26,4 @@ Node.js = Runtime Environment + JavaScript Library
 - routes
 - Sequelize
 
-
+Cada aplicativo tem um README.md com instruções de uso.
