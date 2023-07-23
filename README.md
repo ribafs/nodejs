@@ -17,12 +17,12 @@ Node.js = Runtime Environment + JavaScript Library
 Veja nas pastas:
 
 - api
-- cruds
+- cruds (2 aplicativos)
 - dicas
 - exercicios
 - express
 - images
-- mvc
+- mvc (3 aplicativos)
 - routes
 - Sequelize
 
