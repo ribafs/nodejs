@@ -21,7 +21,6 @@ Veja nas pastas:
 - dicas
 - exercicios
 - express
-- images
 - mvc (3 aplicativos)
 - routes
 - Sequelize
