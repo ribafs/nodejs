@@ -12,4 +12,4 @@ npm install (ignore erro com build)
 noode index
 
 
-![]('../.../images/mvc3.png')
+![]('img/mvc3.png')

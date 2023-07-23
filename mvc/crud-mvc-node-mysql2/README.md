@@ -7,4 +7,4 @@
 npm install (ignore erros de build)
 node src/index (no raiz)
 
-![]('../.../images/mvc.png')
+![]('img/mvc.png')

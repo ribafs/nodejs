@@ -20,4 +20,4 @@ Depois utilize o comando **node app.js** para iniciar a aplicação.
 - npm install
 - node index
 
-![]('../.../images/mvc2.png')
+![]('img/mvc2.png')
