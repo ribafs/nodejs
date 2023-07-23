@@ -1,0 +1,20 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    title CRUD MVC
+    body 
+      .container
+        .row
+          .col
+            h1 editar usuário
+            if user 
+              form(action="/updateUser", method="POST").form
+                input(type="text" name="id" value=`${user.id}` hidden)
+                input(type="text", name="nome" value=`${user.nome}` placeholder="Nome").form-control.mb-2
+                input(type="text", name="sobre"  value=`${user.sobre}` placeholder="Sobrenome").form-control.mb-2
+                input(type="number", name="idade" value=`${user.idade}` placeholder="Idade").form-control.mb-2
+                button.btn.btn-primary.w-50 Editar

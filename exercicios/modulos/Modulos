@@ -1,0 +1,48 @@
+Criar cada arquivo
+
+Mudar as funções para
+
+var somar = function(a,b){
+    return a + b
+}
+
+module.export = soma
+
+
+No arquivo principal para chamar um módulo usar:
+
+var somaFunc = require("./somar")
+Chamar todos os módulos no a rquivo principal
+
+Exemplo:
+
+console.log(somaFunc(1,2))
+
+Para usar módulos no Node
+
+- Criar uma função anônima recebida por uma váriável, que está em um arquivo a ser incluído
+
+Exemplo: temos uma função
+
+function somar(a,b){
+    return a+b
+}
+
+Mudamos para:
+
+var somar = function(a,b){
+    return a+b
+}
+
+E adicionar:
+
+module.exports = somar
+
+
+No arquivo onde queremos incluir o módulo:
+
+var somaFunc = require("./somar")
+
+Agora podemos usar assim:
+
+console.log(somaFunc(10,30))

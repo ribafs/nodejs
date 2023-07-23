@@ -1,0 +1,29 @@
+Módulos
+
+O sistema de módulos em nível de linguagem apareceu no padrão em 2015, evoluiu gradualmente desde então e agora é suportado por todos os principais navegadores e no Node.js. Então vamos estudar os módulos JavaScript modernos a partir de agora.
+
+O que é um módulo?
+
+Um módulo é apenas um arquivo. Um script é um módulo. Tão simples como isso.
+
+Os módulos podem carregar uns aos outros e usar diretivas especiais de exportação e importação para intercambiar funcionalidades, chamar funções de um módulo de outro:
+
+     • export palavras-chave rotula variáveis e funções que devem ser acessíveis de fora do módulo atual.
+     • import permite a importação de funcionalidades de outros módulos.
+
+Por exemplo, se tivermos um arquivo sayHi.js exportando uma função:
+
+// 📁 sayHi.js
+export function sayHi(user) {
+  alert(`Hello, ${user}!`);
+}
+
+Então outro arquivo pode importar e usar este:
+
+// 📁 main.js
+import {sayHi} from './sayHi.js';
+
+alert(sayHi); // function...
+sayHi('John'); // Hello, John!
+
+

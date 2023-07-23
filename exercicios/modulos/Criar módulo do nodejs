@@ -1,0 +1,324 @@
+Criar módulo do node.js
+
+https://quickleft.com/blog/creating-and-publishing-a-node-js-module/
+
+Criar conta no site npmjs.com
+https://www.npmjs.com/signup
+
+Configurar o npm
+
+npm set init.author.name "Ribamar FS"
+npm set init.author.email "ribafs@gmail.com"
+npm set init.author.url "http://ribafs.org"
+
+Criação de módulo
+
+Um módulo em node.js é um arquivo comum em javascript, com a diferença que precisa seguir as especificações de módulo do CommonJS.
+Módulos node rodam em seu próprio escopo, por isso não conflitam com outros módulos.
+O node oferece acesso para alguns globais para ajudar na interoperabilidade dos módulos.
+Os 2 termos primários que iremos estudar são exports e require.
+Require funciona como o include do JavaScript no HTML, ele inclue um outro módulo/arquivo que queremos usar neste.
+Exports usado quando queremos tornar parte do nosso código como pública.
+
+Exemplo:
+
+var outro = require('outro_modulo');
+module.exports = function() {
+    console.log(outro.doSomething());
+}
+
+Quando for nomear um módulo, é bom fazer uma busca no npmjs para ver se o nome está disponível. Precisamos dar um nome único ao módulo.
+
+Exemplo: Scapegoat. Um pequneo módulo para escapar unescapar entidades HTML.
+
+Primeiro
+Criar um novo repositório no GitHub para abrigar o módulo
+
+Clonar o repositório localmente:
+
+git clone git@github.com:brentertz/scapegoat.git
+cd scapegoat
+
+Criar o package.json interativamente:
+
+npm init
+
+Detalhes sobre o package.json no node: https://docs.npmjs.com/json
+
+Exemplo:
+{
+  "name": "scapegoat",
+  "version": "0.0.0",
+  "description": "A small library providing utility methods to escape and unescape HTML entities",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo "Error: no test specified" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brentertz/scapegoat.git"
+  },
+  "keywords": [
+    "escape",
+    "unescape",
+    "html"
+  ],
+  "author": "Brent Ertz <brent.ertz@gmail.com> (http://brentertz.com/)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/brentertz/scapegoat/issues"
+  }
+}
+
+Criar o index.js para manipular o código primário do módulo.
+
+Note o uso do module.exports, que tornará o código disponível para outros módulos.
+
+index.js
+/**
+ * Escape special characters in the given string of html.
+ *
+ * @param  {String} html
+ * @return {String}
+ */
+module.exports = {
+  escape: function(html) {
+    return String(html)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  },
+
+  /**
+   * Unescape special characters in the given string of html.
+   *
+   * @param  {String} html
+   * @return {String}
+   */
+  unescape: function(html) {
+    return String(html)
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, ''')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+  }
+};
+
+Testes do módulo
+
+Para isso usaremos o Mocha e Chai, que podem ser adicionados ao package.json assim:
+
+npm install mocha --save-dev
+npm install chai --save-dev
+
+Serão adicionados para a seção devDependencies, que são requeridos somente durante o desenvolvimento e não em runtime.
+Os comandos acima também criarão a pasta node_modules contendo estas dependências. Seguinto as melhores práticas também devemos
+deixar o diretório node_modules fora do repositório usando o .gitignore no raiz do repositório.
+
+.gitignore
+node_modules
+
+Vamos criar um diretório 'test' para guardar nossos testes.
+
+Como o arquivo primário do módulo é o index.js então também criaremos um index.js no 'test'.
+Mocha deve rodar por default todos os testes neste diretório.
+
+test/index.js
+
+var should = require('chai').should(),
+    scapegoat = require('../index'),
+    escape = scapegoat.escape,
+    unescape = scapegoat.unescape;
+
+describe('#escape', function() {
+  it('converts & into &amp;', function() {
+    escape('&').should.equal('&amp;');
+  });
+
+  it('converts " into &quot;', function() {
+    escape('"').should.equal('&quot;');
+  });
+
+  it('converts ' into &#39;', function() {
+    escape(''').should.equal('&#39;');
+  });
+
+  it('converts < into &lt;', function() {
+    escape('<').should.equal('&lt;');
+  });
+
+  it('converts > into &gt;', function() {
+    escape('>').should.equal('&gt;');
+  });
+});
+
+describe('#unescape', function() {
+  it('converts &amp; into &', function() {
+    unescape('&amp;').should.equal('&');
+  });
+
+  it('converts &quot; into "', function() {
+    unescape('&quot;').should.equal('"');
+  });
+
+  it('converts &#39; into '', function() {
+    unescape('&#39;').should.equal(''');
+  });
+
+  it('converts &lt; into <', function() {
+    unescape('&lt;').should.equal('<');
+  });
+
+  it('converts &gt; into >', function() {
+    unescape('&gt;').should.equal('>');
+  });
+});
+
+Para executar os testes devemos criar um arquivo chamado Makefile no raiz do repositório com um associado test de destino.
+
+Makefile
+
+test:
+    ./node_modules/.bin/mocha --reporter spec
+
+ .PHONY: test
+
+Observe que a indentação após test: é com TAB e não com espaços.
+
+Agora então podemos executar os testes usando o comando:
+
+make test
+
+Para melhorar isso nós podemos agora dizer ao npm para rodar nossos testes ajustando a seção
+scripts:test
+do nosso package.json assim:
+
+"scripts": {
+  "test": "make test"
+},
+
+Após fazer isso execute o comando abaixo para executar os testes:
+
+npm test
+
+A saída deve parecer com:
+
+npm test
+
+> scapegoat@0.0.0 test /Users/brent/Development/scapegoat
+> make test
+
+./node_modules/.bin/mocha --reporter spec
+
+
+  #escape
+    ✓ converts & into &amp;
+    ✓ converts " into &quot;
+    ✓ converts ' into &#39;
+    ✓ converts < into &lt;
+    ✓ converts > into &gt;
+
+  #unescape
+    ✓ converts &amp; into &
+    ✓ converts &quot; into "
+    ✓ converts &#39; into '
+    ✓ converts &lt; into <
+    ✓ converts &gt; into >
+
+
+  10 passing (7ms)
+
+Para brincar mude o Mocha report setting no seu Makefile de spec para nyan. Então rode novamente os testes:
+
+npm test
+
+É sempre uma boa ideia incluir documentação em seu projeto. No GitHub essa documentação pode ficar no README.md, usando a sintaxe makdown.
+
+Sugestão:
+
+Scapegoat
+=========
+
+A small library providing utility methods to `escape` and `unescape` HTML entities
+
+## Installation
+
+  npm install scapegoat --save
+
+## Usage
+
+  var scapegoat = require('scapegoat')
+      escape = scapegoat.escape,
+      unescape = scapegoat.unescape;
+
+  var html = '<h1>Hello World</h1>',
+      escaped = escape(html),
+      unescaped = unescape(escaped);
+
+  console.log('html', html, 'escaped', escaped, 'unescaped', unescaped);
+
+## Tests
+
+  npm test
+
+## Contributing
+
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality. Lint and test your code.
+
+## Release History
+
+* 0.1.0 Initial release
+
+É sempre uma boa ideia especificar a licença do projeto.
+Aqui a relação em ordem alfabética - https://opensource.org/licenses/alphabetical
+
+O nosso módulo está complato.
+Antes de publicar no npm vamos atualizar no GitHub:
+
+git tag 0.1.0
+git push origin master --tags
+
+Publicando no NPM
+
+Instalando direto do GitHub
+npm install git://github.com/brentertz/scapegoat.git
+npm install git://github.com/brentertz/scapegoat.git#0.1.0
+
+Antes de publicar teste se seu módulo instala corretamente.
+
+Verifique se o módulo instala corretamente
+
+npm install . -g
+
+Cheque para ver se ele existe:
+
+npm ls -g
+
+Saia do diretório do módulo, abra o node-repl, faça o require do nosso módulo e experimente ele.
+
+  node
+  > var escape = require('scapegoat').escape;
+  [Function]
+  > escape('<h1>Hello World!</h1>');
+  '&lt;h1&gt;Hello World!&lt;/h1&gt;'
+  >
+
+Se funcionar como esperado então vamos publicar
+
+Volte para o diretório do nosso módulo e execute:
+
+npm publish
+
+Assim já podemos instalar nosso módulo usando o npm
+
+npm install scapegoat
+
+Assim seu módulo já está no repositório do npm - http://npmjs.com
+
+Para publicar um módulo não obrigatoriamente não precisamos esperar criar algo complexo e revolucionário, mas uma simples ideia que seja útil já tá valendo.
+
+ 

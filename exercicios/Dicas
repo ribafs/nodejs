@@ -1,0 +1,17 @@
+Portas
+
+Cuidado com as poortas usadas. A porta precisa estar disponível no sistema oepracional.
+
+O W3Schools usa em seus exemplos a porta 8080. Ao tentar executar aqui não abria o exemplo no navegador.
+
+Ao verificar, percebi que a porta 8080 estava ocupada. Bastou mudar para a porta 3000 e funcionou.
+
+No linux para saber se a porta 8080 está ocupada basta executar
+
+grep -w "8080/tcp" /etc/services
+
+Caso esteja aparecerá uma linha parecida com esta:
+
+http-alt	8080/tcp	webcache	# WWW caching service
+
+

@@ -1,0 +1,25 @@
+Express é um Frameworkweb construído sobre o Node.js.
+
+O Node.js é uma ferramenta incrível para criar serviços e aplicativos de rede.
+
+O Express se baseia em seus recursos para fornecer uma funcionalidade fácil de usar que satisfaz as necessidades do caso de uso do Servidor Web. É Open Source, grátis, fácil de estender e muito performático.
+
+Sempre que fizer alguma alteração no servidor, parar com Ctrl+ e iniciar novamente para que as alterações sejam percebidas
+
+Express - Visão Geral
+
+Express é um framework de aplicativo da web Node.js mínimo e flexível que fornece um conjunto robusto de recursos para desenvolver aplicativos da web e móveis. Ele facilita o rápido desenvolvimento de aplicativos da Web baseados em Node. A seguir estão alguns dos principais recursos do framework Express -
+
+     Permite configurar middlewares para responder a solicitações HTTP.
+
+     Define uma tabela de roteamento que é usada para executar diferentes ações com base no método HTTP e URL.
+
+     Permite renderizar páginas HTML dinamicamente com base na passagem de argumentos para modelos.
+
+Instalação
+
+npm init -y
+
+nppm i express
+
+

@@ -1,0 +1,115 @@
+== Programando com Node.JS no NWJS
+
+Exemplo adaptado do site do NW para a adição de um menu de contexto para uma frase.
+
+Criar o package.json básico no raiz do nw
+
+{
+  "name": "nw_node",
+  "main": "index.html"
+}
+
+Criar um arquivo index.html e referenciar no package.json e executar o nw
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>Context Menu</title>
+</head>
+<body style="width: 100%; height: 100%;">
+
+<p>Clique aqui com o botão direito para ver o menu de contexto.</p>
+
+<script>
+// Create an empty context menu
+var menu = new nw.Menu();
+
+// Detectar o SO em uso
+var os = require('os');
+document.write('Você está rodando em ', os.platform());
+
+// Add some items with label
+menu.append(new nw.MenuItem({
+  label: 'Item A',
+  click: function(){
+    alert('Você clicou no "Item A"');
+  }
+}));
+menu.append(new nw.MenuItem({ label: 'Item B',
+  click: function(){
+    alert('Você clicou no "Item B"');
+  }
+}));
+menu.append(new nw.MenuItem({ type: 'separator' }));
+menu.append(new nw.MenuItem({ label: 'Item C' }));
+
+// Hooks the "contextmenu" event
+document.body.addEventListener('contextmenu', function(ev) {
+  // Prevent showing default context menu
+  ev.preventDefault();
+  // Popup the native context menu at place you click
+  menu.popup(ev.x, ev.y);
+
+  return false;
+}, false);
+
+</script>  
+</body>
+</html>
+
+Agora execute:
+./nw
+
+
+Exemplo de package.json
+{
+  "name": "dimensoes",
+  "version": "0.0.1",
+  "description": "Exemplo com dimensões da tela ",
+  "main": "index.html",
+  "window": {
+    "title": "diskDB App",
+    "toolbar": true,
+    "resizable": false,
+    "width": 800,
+    "height": 500,
+    "min_width": 400,
+    "min_height": 200,
+    "max_width": 800,
+    "max_height": 600,
+    "position": "mouse"
+  },
+  "webkit": {
+    "plugin": false,
+    "java": false,
+    "page-cache": false
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ribamar FS",
+  "license": "MIT",
+  "dependencies": {
+    
+  }
+}
+
+Também podemos usar os módulos instalados pelo NPM
+
+sudo npm i -g nwjs
+
+nw install 0.12.3
+nw install 0.13.0-rc3-sdk
+
+nw /home/path/to/appdir/
+nw /home/path/to/packagedapp.nw
+
+Instalar localmente:
+
+npm install nw
+node_modules/.bin/nw ./my_nwjs_app
+
+Deinstalar
+sudo npm remove nwjs
+
